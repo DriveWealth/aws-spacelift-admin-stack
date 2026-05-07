@@ -2,7 +2,7 @@
 # organization. This stack is denoted by setting the root_administrative property to true in the atmos config. Only one
 # such stack is allowed in the Spacelift organization.
 module "root_admin_stack_config" {
-  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stacks-from-atmos-config?ref=DO-6655-admin-role-migration"
+  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stacks-from-atmos-config?ref=1.6.0-dw.1"
 
   enabled = local.create_root_admin_stack
 
@@ -13,7 +13,7 @@ module "root_admin_stack_config" {
 
 # This gets the atmos stack config for all of the administrative stacks
 module "all_admin_stacks_config" {
-  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stacks-from-atmos-config?ref=DO-6655-admin-role-migration"
+  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stacks-from-atmos-config?ref=1.6.0-dw.1"
 
   enabled = local.create_root_admin_stack
 
@@ -23,7 +23,7 @@ module "all_admin_stacks_config" {
 }
 
 module "root_admin_stack" {
-  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stack?ref=DO-6655-admin-role-migration"
+  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stack?ref=1.6.0-dw.1"
 
   enabled = local.create_root_admin_stack
 

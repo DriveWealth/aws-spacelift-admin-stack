@@ -43,7 +43,7 @@ resource "null_resource" "child_stack_parent_precondition" {
 # Get all of the stack configurations from the atmos config that matched the context_filters and create a stack
 # for each one.
 module "child_stacks_config" {
-  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stacks-from-atmos-config?ref=DO-6655-admin-role-migration"
+  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stacks-from-atmos-config?ref=1.6.0-dw.1"
 
   context_filters          = var.context_filters
   excluded_context_filters = var.excluded_context_filters
@@ -52,7 +52,7 @@ module "child_stacks_config" {
 }
 
 module "child_stack" {
-  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stack?ref=DO-6655-admin-role-migration"
+  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stack?ref=1.6.0-dw.1"
 
   for_each = local.child_stacks
 
