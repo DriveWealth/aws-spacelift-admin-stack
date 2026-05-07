@@ -2,8 +2,7 @@
 # organization. This stack is denoted by setting the root_administrative property to true in the atmos config. Only one
 # such stack is allowed in the Spacelift organization.
 module "root_admin_stack_config" {
-  source  = "cloudposse/cloud-infrastructure-automation/spacelift//modules/spacelift-stacks-from-atmos-config"
-  version = "1.5.0"
+  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stacks-from-atmos-config?ref=DO-6655-admin-role-migration"
 
   enabled = local.create_root_admin_stack
 
@@ -14,8 +13,7 @@ module "root_admin_stack_config" {
 
 # This gets the atmos stack config for all of the administrative stacks
 module "all_admin_stacks_config" {
-  source  = "cloudposse/cloud-infrastructure-automation/spacelift//modules/spacelift-stacks-from-atmos-config"
-  version = "1.5.0"
+  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stacks-from-atmos-config?ref=DO-6655-admin-role-migration"
 
   enabled = local.create_root_admin_stack
 
@@ -25,8 +23,7 @@ module "all_admin_stacks_config" {
 }
 
 module "root_admin_stack" {
-  source  = "cloudposse/cloud-infrastructure-automation/spacelift//modules/spacelift-stack"
-  version = "1.6.0"
+  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stack?ref=DO-6655-admin-role-migration"
 
   enabled = local.create_root_admin_stack
 
@@ -43,7 +40,8 @@ module "root_admin_stack" {
   terraform_workspace = try(local.root_admin_stack_config.workspace, var.terraform_workspace)
   labels              = concat(try(local.root_admin_stack_config.labels, []), try(var.labels, []))
 
-  administrative                          = true
+  administrative                          = try(local.root_admin_stack_config.settings.spacelift.administrative, true)
+  attach_admin_role                       = true
   after_apply                             = try(local.root_admin_stack_config.settings.spacelift.after_apply, [])
   after_destroy                           = try(local.root_admin_stack_config.settings.spacelift.after_destroy, [])
   after_init                              = try(local.root_admin_stack_config.settings.spacelift.after_init, [])

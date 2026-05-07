@@ -43,8 +43,7 @@ resource "null_resource" "child_stack_parent_precondition" {
 # Get all of the stack configurations from the atmos config that matched the context_filters and create a stack
 # for each one.
 module "child_stacks_config" {
-  source  = "cloudposse/cloud-infrastructure-automation/spacelift//modules/spacelift-stacks-from-atmos-config"
-  version = "1.5.0"
+  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stacks-from-atmos-config?ref=DO-6655-admin-role-migration"
 
   context_filters          = var.context_filters
   excluded_context_filters = var.excluded_context_filters
@@ -53,8 +52,7 @@ module "child_stacks_config" {
 }
 
 module "child_stack" {
-  source  = "cloudposse/cloud-infrastructure-automation/spacelift//modules/spacelift-stack"
-  version = "1.6.0"
+  source = "git::https://github.com/DriveWealth/terraform-spacelift-cloud-infrastructure-automation.git//modules/spacelift-stack?ref=DO-6655-admin-role-migration"
 
   for_each = local.child_stacks
 
@@ -78,6 +76,7 @@ module "child_stack" {
   )
 
   administrative                          = try(each.value.settings.spacelift.administrative, false)
+  attach_admin_role                       = try(each.value.settings.spacelift.administrative, false)
   after_apply                             = try(each.value.settings.spacelift.after_apply, [])
   after_destroy                           = try(each.value.settings.spacelift.after_destroy, [])
   after_init                              = try(each.value.settings.spacelift.after_init, [])
